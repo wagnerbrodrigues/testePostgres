@@ -11,3 +11,10 @@ services:
       - "5432:5432"
     volumes:
       - ./dados_postgres:/var/lib/postgresql/data
+    networks:
+      - minha-rede  # Adicione esta seção para conectar o serviço à rede
+
+networks:
+  minha-rede:
+    driver: bridge
+
