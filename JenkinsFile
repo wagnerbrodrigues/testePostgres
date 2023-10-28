@@ -1,0 +1,43 @@
+pipeline {
+    agent {
+        docker {
+            image 'docker:20'  // Usando uma imagem Docker que inclui o Docker CLI
+            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Montar o soquete do Docker
+        }
+    }
+
+    stages {
+        stage('Baixar aplicação do Git') {
+            steps {
+                sh 'git clone https://github.com/wagnerbrodrigues/testePostgres'
+            }
+        }
+
+        stage('Iniciar PostgreSQL') {
+            steps {
+                dir('testePostgres/postgress') {
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
+
+        stage('Construir e Executar Docker com Aplicação') {
+            steps {
+                dir('testePostgres') {
+                    sh 'docker build -t minha-aplicacao .'
+                    sh 'docker run minha-aplicacao'
+                }
+            }
+        }
+
+        stage('Capturar Print da Aplicação') {
+            steps {
+                script {
+                    def appLog = sh(script: 'docker logs `docker ps -q -l`', returnStatus: true).trim()
+                    echo "Saída da Aplicação: ${appLog}"
+                }
+            }
+        }
+    }
+
+}

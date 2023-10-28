@@ -11,4 +11,4 @@ COPY . /app
 RUN pip install psycopg2
 
 # Comando para executar a aplicação quando o contêiner for iniciado
-CMD ["python", "app.py"]
+CMD ["python", "testePostgres.py"]
