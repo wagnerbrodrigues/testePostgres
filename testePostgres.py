@@ -2,7 +2,7 @@ import psycopg2
 
 # Conecte ao banco de dados PostgreSQL
 conexao = psycopg2.connect(
-    host="seu_host",
+    host="meu-postgres",
     user="seu_usuario",
     password="sua_senha",
     database="seu_banco_de_dados"
