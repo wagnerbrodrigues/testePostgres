@@ -16,5 +16,5 @@ services:
 
 networks:
   minha-rede:
-    driver: bridge
+    external: true
 
